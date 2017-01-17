@@ -60,3 +60,34 @@ $oss->delete('storage/image/'); // 删除文件夹，但是要确保是空文件
 $oss->getAllObject(); // 获取根目录下的所有文件名，默认是100个
 $oss->getAllObject(['prefix' => 'storage/image/']); // 获取 `storage/image/` 目录下的所有文件名，默认是100个
 ```
+
+
+
+Create PreSignedUrl:
+
+Need add following codes to OSS.php
+```
+    /**
+     * 获取 PreSigned Url 给第三方使用，返回 PreSigned Url。
+     * @param 
+     *      'bucketName'  => bucket 的名字
+     *      'Key'    => 上传文件的名字
+     *      'expiration' => 有效时间 int : 例如'600' 是600秒的意思
+     *      'method'    => http方式,默认是'GET', 还有'PUT'
+     * 
+     * @return Pre Signed Url
+     */
+    public function generatePresignedUrl($bucketName, $key, $expiration, $method)
+    {
+		
+		$oss_url = $this->getClient()->signUrl($bucketName, $key, $expiration, $method);
+		
+        return $oss_url;
+    }
+```
+
+
+
+
+
+
